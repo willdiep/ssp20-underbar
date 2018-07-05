@@ -29,12 +29,16 @@
    * implementing the sections you are responsible for.
    */
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
   _.first = function(array, n) {
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
+
+ /*-------------------------------------------------------------------------------------------------------------*/ 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
@@ -51,18 +55,27 @@
     }
   };
 
+
+ /*-------------------------------------------------------------------------------------------------------------*/ 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
-    if (Array.is)
-    for (var i = 0; i < collection.length; i++) {
-      iterator(collection[i], i, collection);
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
+    } else {
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
+      }
     }
   };
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
@@ -71,35 +84,62 @@
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
 
-    _.each(array, function(item, index) {
+    _.each(array,(item, index) => {
       if (item === target && result === -1) {
         result = index;
       }
     });
-
+ 
     return result;
   };
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    let accumulator = [];
+    _.each(collection, item => {
+      if (test(item)) accumulator.push(item);
+    });
+    return accumulator;
   };
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+
+    // let accumulator = [];
+    // _.each(collection,  item => {
+    //   if (!test(item)) accumulator.push(item);
+    // });
+    // return accumulator;
+
+    return _.filter(collection, item => !test(item));
   };
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+
+
   };
 
 
+/*-------------------------------------------------------------------------------------------------------------*/
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    let accumulator = [];
+    _.each(collection, item => {
+        accumulator.push(iterator(item));
+    });
+    return accumulator;
   };
 
   /*
@@ -108,7 +148,7 @@
    * as an example of this.
    */
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(collection, key) {
@@ -120,6 +160,13 @@
     });
   };
 
+
+
+
+
+
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.

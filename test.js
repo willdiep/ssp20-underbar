@@ -1,1 +1,3 @@
-console.log( 'hello'.slice(1,3) );
+let numArr = [2,1,3,9,5];
+
+console.log( numArr.sort() );
