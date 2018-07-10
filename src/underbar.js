@@ -161,11 +161,6 @@
   };
 
 
-
-
-
-
-
 /*-------------------------------------------------------------------------------------------------------------*/
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
@@ -188,8 +183,21 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (accumulator === undefined) {
+      accumulator = collection[0];
+      collection = collection.slice(1);
+    }
+    _.each(collection, (item, index) => {
+      accumulator = iterator(accumulator, item, index);
+    });
+    return accumulator;
   };
 
+// let sum = _.reduce([1,2,3], (total, number) => total + number);
+// console.log( sum );
+
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
@@ -202,10 +210,15 @@
     }, false);
   };
 
+console.log( _.contains([1,2,3], 1) ); // true
+console.log( _.contains([1,2,3], 5) ); // false
 
+
+/*-------------------------------------------------------------------------------------------------------------*/
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce()
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
